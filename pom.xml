@@ -12,8 +12,7 @@
     <properties>
         <mavenSurefirePlugin.version>3.0.0-M5</mavenSurefirePlugin.version>
         <aspectjweaver.version>1.9.1</aspectjweaver.version>
-        <allure-maven.version>2.10.0</allure-maven.version>
-        <lombok.version>1.18.12</lombok.version>
+        <lombok.version>1.18.18</lombok.version>
     </properties>
 
     <build>
@@ -46,12 +45,6 @@
                         <version>${aspectjweaver.version}</version>
                     </dependency>
                 </dependencies>
-            </plugin>
-
-            <plugin>
-                <groupId>io.qameta.allure</groupId>
-                <artifactId>allure-maven</artifactId>
-                <version>${allure-maven.version}</version>
             </plugin>
         </plugins>
     </build>
