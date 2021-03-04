@@ -1,3 +1,5 @@
+package utility;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -11,8 +13,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DOMxmlReader {
-    public Map<String, String> XMLreader(String path) {
+public class DomXmlReader {
+    public Map<String, String> XmlReader(String path) {
         File xmlFile = new File(path);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;

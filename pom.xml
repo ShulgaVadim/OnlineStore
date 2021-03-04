@@ -60,7 +60,6 @@
     </dependencies>
 
     <modules>
-        <module>parent</module>
         <module>domain</module>
         <module>store</module>
         <module>consoleApp</module>
