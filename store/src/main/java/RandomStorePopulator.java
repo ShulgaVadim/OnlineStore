@@ -11,19 +11,17 @@ import java.util.stream.Collectors;
 public class RandomStorePopulator {
 
     Reflections reflections = new Reflections("categories");
-    List<String> namesOfCategory = new ArrayList<>();
+    List<String> namesOfCategory;
     Set<Class<? extends Category>> subClassesForCategory = reflections.getSubTypesOf(Category.class);
     Faker faker = new Faker();
+    int length = subClassesForCategory.size();
 
     public List<String> getNamesOfCategory() {
-        for (int j = 0; j < subClassesForCategory.size(); j++) {
-            namesOfCategory.add(subClassesForCategory.stream().collect(Collectors.toList())
-                    .get(j).getName());
-        }
-        return namesOfCategory;
+        return namesOfCategory = subClassesForCategory.stream().map(i -> i.getName())
+                .collect(Collectors.toList());
     }
 
-    public String getProductNameByCategoryName(String categoryNameField) {
+    public String getProductNameByCategoryName (String categoryNameField) {
         String productName = null;
         if (categoryNameField.equals("categories.Fruit")) {
             productName = faker.food().fruit();
@@ -39,17 +37,16 @@ public class RandomStorePopulator {
 
     public List<Product> populateTheStore() {
         List<Product> products = new ArrayList<>();
+        namesOfCategory = getNamesOfCategory();
         String productName;
-        String className;
+        Product newProduct = null;
 
         for (int i = 0; i < 20; i++) {
-            int randomInt = (int) (Math.random() * subClassesForCategory.size());
-            className = getNamesOfCategory().get(randomInt);
-            productName = getProductNameByCategoryName(className);
-            Product newProduct = null;
+            int randomInt = (int) (Math.random() * length);
+            productName = getProductNameByCategoryName(namesOfCategory.get(randomInt));
             try {
                 newProduct = new Product(productName, faker.number().numberBetween(0, 11),
-                        Double.valueOf(faker.commerce().price()), (Category) Class.forName(getNamesOfCategory()
+                        Double.valueOf(faker.commerce().price()), (Category) Class.forName(namesOfCategory
                         .get(randomInt)).newInstance());
             } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
                 e.printStackTrace();

@@ -2,17 +2,16 @@ package product;
 
 import lombok.*;
 
-
 @Getter
 @Setter
 @AllArgsConstructor
-@Builder
 public class Product {
 
     String name;
     int rate;
     double price;
     Category category;
+
 
     @Override
     public String toString() {
@@ -22,5 +21,6 @@ public class Product {
                 ", price: " + price +
                 ", category: " + getCategory().getCategoryName() + "}";
     }
+
 }
 
