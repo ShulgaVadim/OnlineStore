@@ -1,14 +1,18 @@
 package com.vadim.consoleApp.commands;
 
 
-import com.vadim.consoleApp.Sorter;
+
 import com.vadim.store.Store;
 import lombok.Data;
 
 @Data
-public class Command {
-    Store store;
+public abstract class Command {
 
-    void execute() {
+    protected Store store;
+
+    public Command(Store store) {
+        this.store = store;
     }
+
+    public abstract void execute();
 }

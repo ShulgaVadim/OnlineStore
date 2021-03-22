@@ -12,16 +12,19 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class CommandSort extends Command {
-    Store store;
 
-    public CommandSort(Store store) {
-        this.store = store;
+    Map<String, String> sortOptions;
+
+    public CommandSort(Store store, Map<String, String> sortOptions) {
+        super(store);
+        this.sortOptions = sortOptions;
     }
 
-    public List<Product> sort(Map<String, String> map) {
+    @Override
+    public void execute() {
         List<Product> products = store.getProducts();
         Comparator<Product> comparator = null;
-        for (Map.Entry<String, String> item : map.entrySet()) {
+        for (Map.Entry<String, String> item : sortOptions.entrySet()) {
             if (comparator == null) {
                 comparator = Comparator.comparing(getFunction(item.getKey()), getComparator(item.getValue()));
 
@@ -30,7 +33,7 @@ public class CommandSort extends Command {
 
             }
         }
-        return products.stream().sorted(comparator).collect(Collectors.toList());
+        products.stream().sorted(comparator).collect(Collectors.toList());
     }
 
 
@@ -66,10 +69,6 @@ public class CommandSort extends Command {
         return comparator;
     }
 
-    public Map<String, String> getMapFromXml(String fileName) {
-        URL resource = CommandSort.class.getClassLoader().getResource(fileName);
-        return new XmlReader().getSortConditions(resource.getPath());
 
-    }
 }
 
