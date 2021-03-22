@@ -1,6 +1,6 @@
-package categories;
+package com.vadim.domain.categories;
 
-import product.Category;
+import com.vadim.domain.product.Category;
 
 public class Ingredient extends Category {
 

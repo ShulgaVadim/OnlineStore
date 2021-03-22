@@ -1,5 +1,6 @@
-package product;
+package com.vadim.domain.product;
 
+import com.vadim.domain.product.Category;
 import lombok.*;
 
 @Getter
