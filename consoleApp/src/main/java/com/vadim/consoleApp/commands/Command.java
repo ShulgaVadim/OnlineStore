@@ -1,7 +1,5 @@
 package com.vadim.consoleApp.commands;
 
-
-
 import com.vadim.store.Store;
 import lombok.Data;
 

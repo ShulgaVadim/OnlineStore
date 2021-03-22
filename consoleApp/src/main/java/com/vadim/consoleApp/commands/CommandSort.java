@@ -2,9 +2,7 @@ package com.vadim.consoleApp.commands;
 
 import com.vadim.domain.product.Product;
 import com.vadim.store.Store;
-import com.vadim.store.utility.XmlReader;
 
-import java.net.URL;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +12,7 @@ import java.util.stream.Collectors;
 public class CommandSort extends Command {
 
     Map<String, String> sortOptions;
+    CommandPrint print;
 
     public CommandSort(Store store, Map<String, String> sortOptions) {
         super(store);
@@ -22,7 +21,11 @@ public class CommandSort extends Command {
 
     @Override
     public void execute() {
-        List<Product> products = store.getProducts();
+        print = new CommandPrint(store, multipleSort());
+        print.execute();
+    }
+
+    public List<Product> multipleSort() {
         Comparator<Product> comparator = null;
         for (Map.Entry<String, String> item : sortOptions.entrySet()) {
             if (comparator == null) {
@@ -30,10 +33,9 @@ public class CommandSort extends Command {
 
             } else {
                 comparator = comparator.thenComparing(getFunction(item.getKey()), getComparator(item.getValue()));
-
             }
         }
-        products.stream().sorted(comparator).collect(Collectors.toList());
+        return store.getProducts().stream().sorted(comparator).collect(Collectors.toList());
     }
 
 
@@ -68,7 +70,5 @@ public class CommandSort extends Command {
         }
         return comparator;
     }
-
-
 }
 

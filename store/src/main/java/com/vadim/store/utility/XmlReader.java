@@ -14,11 +14,10 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-
-public class XmlReader implements ConditionsReader{
+public class XmlReader implements ConditionsReader {
 
     @Override
-    public Map<String, String> getSortConditions (String path) {
+    public Map<String, String> getSortConditions(String path) {
         File xmlFile = new File(path);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
@@ -51,5 +50,4 @@ public class XmlReader implements ConditionsReader{
         }
         return nodeWithValue;
     }
-
 }

@@ -1,6 +1,5 @@
 package com.vadim.consoleApp;
 
-import com.vadim.consoleApp.commands.Command;
 import com.vadim.domain.product.Product;
 import com.vadim.store.RandomStorePopulator;
 import com.vadim.store.Store;
