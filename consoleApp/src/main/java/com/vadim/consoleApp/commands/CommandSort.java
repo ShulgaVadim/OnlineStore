@@ -1,18 +1,19 @@
 package com.vadim.consoleApp.commands;
 
+import com.vadim.domain.product.Category;
 import com.vadim.domain.product.Product;
 import com.vadim.store.Store;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class CommandSort extends Command {
+public class CommandSort extends CommandPrint {
 
     Map<String, String> sortOptions;
-    CommandPrint print;
 
     public CommandSort(Store store, Map<String, String> sortOptions) {
         super(store);
@@ -21,11 +22,10 @@ public class CommandSort extends Command {
 
     @Override
     public void execute() {
-        print = new CommandPrint(store, multipleSort());
-        print.execute();
+        print(sortCategory());
     }
 
-    public List<Product> multipleSort() {
+    public List<Product> multipleSort(List<Product> unsortedProducts) {
         Comparator<Product> comparator = null;
         for (Map.Entry<String, String> item : sortOptions.entrySet()) {
             if (comparator == null) {
@@ -35,9 +35,16 @@ public class CommandSort extends Command {
                 comparator = comparator.thenComparing(getFunction(item.getKey()), getComparator(item.getValue()));
             }
         }
-        return store.getProducts().stream().sorted(comparator).collect(Collectors.toList());
+        return unsortedProducts.stream().sorted(comparator).collect(Collectors.toList());
     }
 
+    public List<Category> sortCategory() {
+        List<Category> categories = new ArrayList<>(store.getCategories());
+        for (Category c : categories) {
+            c.setProducts(multipleSort(c.getProducts()));
+        }
+        return categories;
+    }
 
     public Function getFunction(String name) {
         if (name.equals("name")) {

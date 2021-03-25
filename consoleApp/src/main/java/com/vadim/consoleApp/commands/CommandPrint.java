@@ -1,6 +1,6 @@
 package com.vadim.consoleApp.commands;
 
-import com.vadim.domain.product.Product;
+import com.vadim.domain.product.Category;
 import com.vadim.store.Store;
 
 import java.util.List;
@@ -8,39 +8,52 @@ import java.util.List;
 public class CommandPrint extends Command {
 
     Integer n;
-    List<Product> sortedProducts;
+    List<Category> categoryList;
 
-    //for print
     public CommandPrint(Store store) {
         super(store);
-    }
-
-    //for sort
-    public CommandPrint(Store store, List<Product> sortedProducts) {
-        super(store);
-        this.sortedProducts = sortedProducts;
-    }
-
-    //for top
-    public CommandPrint(Store store, int n, List<Product> sortedProducts) {
-        super(store);
-        this.n = n;
-        this.sortedProducts = sortedProducts;
     }
 
     @Override
     public void execute() {
         if (n != null) {                                    //top
-            sortedProducts.stream()
-                    .limit(n).forEach(System.out::println);
-        } else {
-            if (sortedProducts != null) {                   //sort
-                sortedProducts.stream()
-                        .forEach(System.out::println);
+            print(categoryList, n);
+        } else {                                            //sort
+            if (categoryList != null) {
+                print(categoryList);
             } else {                                        //print
-                store.getProducts().stream()
-                        .forEach(System.out::println);
+                print(store.getCategories());
+            }
+        }
+    }
+
+    void print(List<Category> listForPrint, int... size) {
+        int sizeList;
+        for (Category c : listForPrint) {
+            System.out.println("\n********* " + c.getCategoryName() + " *********");
+            int productPosition = 1;
+            if (size.length > 0) {
+                sizeList = size[0];
+            } else {
+                sizeList = c.getProducts().size();
+            }
+            for (int i = 0; i < sizeList; i++) {
+                System.out.println("\t" + productPosition + ". " + c.getProducts().get(i));
+                productPosition++;
             }
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

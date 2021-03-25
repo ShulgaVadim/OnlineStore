@@ -1,14 +1,17 @@
 package com.vadim.domain.product;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.List;
+
+@Data
 @Getter
 @Setter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public abstract class Category {
 
-    private String categoryName;
+    @NonNull
+    protected String categoryName;
+    public List<Product> products;
 }
 

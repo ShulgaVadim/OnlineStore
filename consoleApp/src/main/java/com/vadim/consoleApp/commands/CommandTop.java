@@ -14,7 +14,6 @@ public class CommandTop extends CommandSort {
 
     @Override
     public void execute() {
-        print = new CommandPrint(store, n, multipleSort());
-        print.execute();
+        print(sortCategory(), n);
     }
 }

@@ -8,12 +8,44 @@ import com.vadim.domain.product.Product;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class RandomStorePopulator {
 
-    List<String> namesOfCategory;
     Faker faker = new Faker();
+
+
+    public String getProductNameByCategoryName(String categoryNameField) {
+        String productName = null;
+
+        if (categoryNameField.equals("Fruits")) {
+            productName = faker.food().fruit();
+        } else if (categoryNameField.equals("Ingredients")) {
+            productName = faker.food().ingredient();
+        } else if (categoryNameField.equals("Spices")) {
+            productName = faker.food().spice();
+        } else if (categoryNameField.equals("Vegetables")) {
+            productName = faker.food().vegetable();
+        }
+        return productName;
+    }
+
+    private List<Product> populateCategories(String categoryNameField) {
+        List<Product> productList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            productList.add(new Product(getProductNameByCategoryName(categoryNameField),
+                    faker.number().numberBetween(0, 11),
+                    Double.valueOf(faker.commerce().price())));
+        }
+        return productList;
+    }
+
+    public List<Category> populateTheStore() {
+        List<Category> categories = getNamesOfCategory();
+        for (Category c : categories) {
+            c.setProducts(populateCategories(c.getCategoryName()));
+        }
+        return categories;
+    }
 
     public Set<Class<? extends Category>> getSubClassesForCategory() {
         Reflections reflections = new Reflections("com.vadim.domain.categories");
@@ -21,50 +53,16 @@ public class RandomStorePopulator {
         return subClassesForCategory;
     }
 
-    public int getSubClassesForCategorySize(Set<Class<? extends Category>> set) {
-        return set.size();
-    }
-
-    public List<String> getNamesOfCategory() {
-        return namesOfCategory = getSubClassesForCategory().stream().map(i -> i.getName())
-                .collect(Collectors.toList());
-    }
-
-    public String getProductNameByCategoryName (String categoryNameField) {
-        String productName = null;
-        if (categoryNameField.equals("com.vadim.domain.categories.Fruit")) {
-            productName = faker.food().fruit();
-        } else if (categoryNameField.equals("com.vadim.domain.categories.Ingredient")) {
-            productName = faker.food().ingredient();
-        } else if (categoryNameField.equals("com.vadim.domain.categories.Spice")) {
-            productName = faker.food().spice();
-        } else if (categoryNameField.equals("com.vadim.domain.categories.Vegetable")) {
-            productName = faker.food().vegetable();
-        }
-        return productName;
-    }
-
-    public List<Product> populateTheStore() {
-        List<Product> products = new ArrayList<>();
-        namesOfCategory = getNamesOfCategory();
-        Set<Class<? extends Category>> subClassesForCategory = getSubClassesForCategory();
-        int length = getSubClassesForCategorySize(subClassesForCategory);
-        String productName;
-        Product newProduct = null;
-
-        for (int i = 0; i < 20; i++) {
-            int randomInt = (int) (Math.random() * length);
-            productName = getProductNameByCategoryName(namesOfCategory.get(randomInt));
+    public List<Category> getNamesOfCategory() {
+        List<Category> namesOfCategory = new ArrayList<>();
+        for (Class<? extends Category> cla : this.getSubClassesForCategory()) {
             try {
-                newProduct = new Product(productName, faker.number().numberBetween(0, 11),
-                        Double.valueOf(faker.commerce().price()), (Category) Class.forName(namesOfCategory
-                        .get(randomInt)).newInstance());
-            } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+                namesOfCategory.add(cla.newInstance());
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            products.add(newProduct);
         }
-        return products;
+        return namesOfCategory;
     }
 }
 
