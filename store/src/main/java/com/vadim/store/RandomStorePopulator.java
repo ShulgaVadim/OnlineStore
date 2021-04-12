@@ -1,6 +1,10 @@
 package com.vadim.store;
 
 import com.github.javafaker.Faker;
+import com.vadim.domain.categories.Fruit;
+import com.vadim.domain.categories.Ingredient;
+import com.vadim.domain.categories.Spice;
+import com.vadim.domain.categories.Vegetable;
 import org.reflections.Reflections;
 import com.vadim.domain.product.Category;
 import com.vadim.domain.product.Product;
@@ -16,15 +20,19 @@ public class RandomStorePopulator {
 
     public String getProductNameByCategoryName(String categoryNameField) {
         String productName = null;
-
-        if (categoryNameField.equals("Fruits")) {
-            productName = faker.food().fruit();
-        } else if (categoryNameField.equals("Ingredients")) {
-            productName = faker.food().ingredient();
-        } else if (categoryNameField.equals("Spices")) {
-            productName = faker.food().spice();
-        } else if (categoryNameField.equals("Vegetables")) {
-            productName = faker.food().vegetable();
+        switch (categoryNameField) {
+            case ("Fruits"):
+                productName = faker.food().fruit();
+                break;
+            case ("Ingredients"):
+                productName = faker.food().ingredient();
+                break;
+            case ("Spices"):
+                productName = faker.food().spice();
+                break;
+            case ("Vegetables"):
+                productName = faker.food().vegetable();
+                break;
         }
         return productName;
     }
@@ -39,7 +47,7 @@ public class RandomStorePopulator {
         return productList;
     }
 
-    public List<Category> populateTheStore() {
+    public List<Category> populateTheStore () {
         List<Category> categories = getNamesOfCategory();
         for (Category c : categories) {
             c.setProducts(populateCategories(c.getCategoryName()));

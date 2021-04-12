@@ -1,21 +1,21 @@
 package com.vadim.consoleApp;
 
-import com.vadim.domain.product.Category;
-import com.vadim.store.RandomStorePopulator;
 import com.vadim.store.Store;
+import com.vadim.store.DataBaseHandler;
 
-import java.util.List;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 
 public class StoreApp {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
 
-        RandomStorePopulator populator = new RandomStorePopulator();
+//        RandomStorePopulator populator = new RandomStorePopulator();
         Scanner scanner = new Scanner(System.in);
-        List<Category> categories = populator.populateTheStore();
-        Store evroOpt = new Store(categories);
+        DataBaseHandler dbh = new DataBaseHandler();
+//        dbh.createDB();
+        Store evroOpt = new Store(dbh.getListOfCategoriesFromDB());
 
         CommandsManager commandsManager = new CommandsManager(scanner, evroOpt);
         commandsManager.init();
