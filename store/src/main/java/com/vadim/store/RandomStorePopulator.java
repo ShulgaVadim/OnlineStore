@@ -47,7 +47,7 @@ public class RandomStorePopulator {
         return productList;
     }
 
-    public List<Category> populateTheStore () {
+    public List<Category> populateTheStore() {
         List<Category> categories = getNamesOfCategory();
         for (Category c : categories) {
             c.setProducts(populateCategories(c.getCategoryName()));
