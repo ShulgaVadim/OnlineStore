@@ -1,10 +1,6 @@
 package com.vadim.store;
 
 import com.github.javafaker.Faker;
-import com.vadim.domain.categories.Fruit;
-import com.vadim.domain.categories.Ingredient;
-import com.vadim.domain.categories.Spice;
-import com.vadim.domain.categories.Vegetable;
 import org.reflections.Reflections;
 import com.vadim.domain.product.Category;
 import com.vadim.domain.product.Product;
@@ -15,8 +11,7 @@ import java.util.Set;
 
 public class RandomStorePopulator {
 
-    Faker faker = new Faker();
-
+    public Faker faker = new Faker();
 
     public String getProductNameByCategoryName(String categoryNameField) {
         String productName = null;
@@ -42,7 +37,8 @@ public class RandomStorePopulator {
         for (int i = 0; i < 10; i++) {
             productList.add(new Product(getProductNameByCategoryName(categoryNameField),
                     faker.number().numberBetween(0, 11),
-                    Double.valueOf(faker.commerce().price())));
+                    Double.valueOf(faker.commerce().price()))
+            );
         }
         return productList;
     }

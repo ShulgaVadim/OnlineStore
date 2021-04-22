@@ -1,7 +1,8 @@
 package com.vadim.consoleApp;
 
+import com.vadim.store.Populator;
 import com.vadim.store.Store;
-import com.vadim.store.DataBaseHandler;
+import com.vadim.store.StorePopulator;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -11,11 +12,9 @@ public class StoreApp {
 
     public static void main(String[] args) throws SQLException {
 
-//        RandomStorePopulator populator = new RandomStorePopulator();
         Scanner scanner = new Scanner(System.in);
-        DataBaseHandler dbh = new DataBaseHandler();
-//        dbh.createDB();
-        Store evroOpt = new Store(dbh.getListOfCategoriesFromDB());
+        StorePopulator sp = new StorePopulator();
+        Store evroOpt = new Store(sp.populateStore(Populator.DB));
 
         CommandsManager commandsManager = new CommandsManager(scanner, evroOpt);
         commandsManager.init();

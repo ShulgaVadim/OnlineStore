@@ -8,10 +8,14 @@ import java.util.List;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public abstract class Category {
+@NoArgsConstructor
+public class Category {
 
     @NonNull
     protected String categoryName;
     public List<Product> products;
+    @NonNull
+    public int categoryId;
+
 }
 
