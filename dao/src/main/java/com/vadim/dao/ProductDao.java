@@ -1,13 +1,14 @@
 package com.vadim.dao;
 
-import com.vadim.DataBaseConnection;
+import com.vadim.DataBaseManager;
 import com.vadim.domain.product.Product;
+import com.vadim.exceptions.DbException;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDao extends DataBaseConnection implements Dao<Product> {
+public class ProductDao extends DataBaseManager implements Dao<Product> {
 
     @Override
     public void add(Product product) {
@@ -26,7 +27,7 @@ public class ProductDao extends DataBaseConnection implements Dao<Product> {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DbException("Error to call add() method for Product", e);
         } finally {
             closeConnection(preparedStatement);
         }
@@ -56,10 +57,9 @@ public class ProductDao extends DataBaseConnection implements Dao<Product> {
                 productList.add(product);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DbException("Error to call getAll() method for Product", e);
         } finally {
             closeConnection(statement);
-            System.out.println("List<Product> getAll() is closed");
         }
         return productList;
     }
@@ -85,7 +85,7 @@ public class ProductDao extends DataBaseConnection implements Dao<Product> {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DbException("Error to call getById() method for Product", e);
         } finally {
             closeConnection(preparedStatement);
             System.out.println("Product getById is closed");
@@ -109,7 +109,7 @@ public class ProductDao extends DataBaseConnection implements Dao<Product> {
             preparedStatement.setInt(5, product.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DbException("Error to call update() method for Product", e);
         } finally {
             closeConnection(preparedStatement);
         }
@@ -128,7 +128,7 @@ public class ProductDao extends DataBaseConnection implements Dao<Product> {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DbException("Error to call remove() method for Product", e);
         } finally {
             closeConnection(preparedStatement);
         }
@@ -155,7 +155,7 @@ public class ProductDao extends DataBaseConnection implements Dao<Product> {
                 productList.add(product);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DbException("Error to call getByCategoryId() method for Product", e);
         } finally {
             preparedStatement.close();
         }

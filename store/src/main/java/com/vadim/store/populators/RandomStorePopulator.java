@@ -1,4 +1,4 @@
-package com.vadim.store;
+package com.vadim.store.populators;
 
 import com.github.javafaker.Faker;
 import org.reflections.Reflections;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class RandomStorePopulator {
+public class RandomStorePopulator implements Populator {
 
     public Faker faker = new Faker();
 
@@ -43,7 +43,8 @@ public class RandomStorePopulator {
         return productList;
     }
 
-    public List<Category> populateTheStore() {
+    @Override
+    public List<Category> getListOfCategories() {
         List<Category> categories = getNamesOfCategory();
         for (Category c : categories) {
             c.setProducts(populateCategories(c.getCategoryName()));

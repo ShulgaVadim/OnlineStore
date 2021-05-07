@@ -1,6 +1,8 @@
 package com.vadim;
 
 
+import com.vadim.exceptions.DbException;
+import com.vadim.exceptions.InitException;
 import lombok.Getter;
 
 import java.io.IOException;
@@ -12,7 +14,7 @@ import java.sql.Statement;
 import java.util.Properties;
 
 @Getter
-public class DataBaseConnection {
+public class DataBaseManager {
     String driver = getPropertyValue("DB_DRIVER");
     String url = getPropertyValue("DB_URL");
     String username = getPropertyValue("DB_USERNAME");
@@ -20,7 +22,7 @@ public class DataBaseConnection {
 
     public Connection connection;
 
-    public DataBaseConnection(){
+    public DataBaseManager() {
         this.connection = getDBConnection();
     }
 
@@ -29,8 +31,7 @@ public class DataBaseConnection {
             Class.forName(driver);
             connection = DriverManager.getConnection(url, username, password);
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-            System.out.println("Connection ERROR");
+            throw new DbException("Failed to make connection!", e);
         }
         return connection;
     }
@@ -43,7 +44,7 @@ public class DataBaseConnection {
             properties.load(inputStream);
             propertyValue = properties.getProperty(propertyName);
         } catch (IOException e) {
-            System.out.println(e);
+            throw new InitException("Loading properties error");
         }
         return propertyValue;
     }
@@ -56,8 +57,8 @@ public class DataBaseConnection {
             if (connection != null) {
                 connection.close();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new DbException("Error: Connection has not been closed");
         }
     }
 }

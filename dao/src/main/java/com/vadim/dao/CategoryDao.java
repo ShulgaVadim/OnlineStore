@@ -1,14 +1,15 @@
 package com.vadim.dao;
 
-import com.vadim.DataBaseConnection;
+import com.vadim.DataBaseManager;
 import com.vadim.domain.product.Category;
+import com.vadim.exceptions.DbException;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class CategoryDao extends DataBaseConnection implements Dao<Category> {
+public class CategoryDao extends DataBaseManager implements Dao<Category> {
 
     @Override
     public void add(Category category) {
@@ -21,7 +22,7 @@ public class CategoryDao extends DataBaseConnection implements Dao<Category> {
             preparedStatement.setString(2, category.getCategoryName());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DbException("Error to call add() method for Category", e);
         } finally {
             closeConnection(preparedStatement);
         }
@@ -42,7 +43,7 @@ public class CategoryDao extends DataBaseConnection implements Dao<Category> {
                 categoryList.add(category);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DbException("Error to call getAll() method for Category", e);
         } finally {
             closeConnection(statement);
         }
@@ -51,7 +52,6 @@ public class CategoryDao extends DataBaseConnection implements Dao<Category> {
 
     @Override
     public Category getById(Long id) {
-        System.out.println("Category getById run");
         PreparedStatement preparedStatement = null;
         String sql = "SELECT ID, name FROM CATEGORIES WHERE ID=?";
         Category category = new Category();
@@ -64,7 +64,7 @@ public class CategoryDao extends DataBaseConnection implements Dao<Category> {
             category.setCategoryName(resultSet.getString("name"));
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DbException("Error to call getById() method for Category", e);
         } finally {
             closeConnection(preparedStatement);
         }
@@ -83,7 +83,7 @@ public class CategoryDao extends DataBaseConnection implements Dao<Category> {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DbException("Error to call update() method for Category", e);
         } finally {
             closeConnection(preparedStatement);
         }
@@ -99,7 +99,7 @@ public class CategoryDao extends DataBaseConnection implements Dao<Category> {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DbException("Error to call remove() method for Category", e);
         } finally {
             closeConnection(preparedStatement);
         }
