@@ -1,10 +1,9 @@
 package com.vadim.consoleApp;
 
-import com.vadim.domain.product.Category;
-import com.vadim.store.RandomStorePopulator;
+import com.vadim.store.populators.DataBasePopulator;
+import com.vadim.store.populators.Populator;
 import com.vadim.store.Store;
 
-import java.util.List;
 import java.util.Scanner;
 
 
@@ -12,10 +11,9 @@ public class StoreApp {
 
     public static void main(String[] args) {
 
-        RandomStorePopulator populator = new RandomStorePopulator();
         Scanner scanner = new Scanner(System.in);
-        List<Category> categories = populator.populateTheStore();
-        Store evroOpt = new Store(categories);
+        Populator populator = new DataBasePopulator();
+        Store evroOpt = new Store(populator.getListOfCategories());
 
         CommandsManager commandsManager = new CommandsManager(scanner, evroOpt);
         commandsManager.init();

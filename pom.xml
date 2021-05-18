@@ -13,6 +13,7 @@
         <mavenSurefirePlugin.version>3.0.0-M5</mavenSurefirePlugin.version>
         <aspectjweaver.version>1.9.1</aspectjweaver.version>
         <lombok.version>1.18.18</lombok.version>
+        <h2.version>1.4.200</h2.version>
     </properties>
 
     <build>
@@ -57,11 +58,19 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+    <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <version>${h2.version}</version>
+    </dependency>
     </dependencies>
 
     <modules>
         <module>domain</module>
         <module>store</module>
         <module>consoleApp</module>
+        <module>dao</module>
     </modules>
 </project>

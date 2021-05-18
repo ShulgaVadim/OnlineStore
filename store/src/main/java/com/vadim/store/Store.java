@@ -7,10 +7,13 @@ import java.util.*;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 public class Store {
 
-    @NonNull
     private List<Category> categories;
     private List<Product> purchasedGoods;
+
+    public Store(List<Category> categories) {
+        this.categories = categories;
+    }
+
 }

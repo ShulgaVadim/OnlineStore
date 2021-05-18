@@ -1,4 +1,4 @@
-package com.vadim.store;
+package com.vadim.store.populators;
 
 import com.github.javafaker.Faker;
 import org.reflections.Reflections;
@@ -9,22 +9,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class RandomStorePopulator {
+public class RandomStorePopulator implements Populator {
 
-    Faker faker = new Faker();
-
+    public Faker faker = new Faker();
 
     public String getProductNameByCategoryName(String categoryNameField) {
         String productName = null;
-
-        if (categoryNameField.equals("Fruits")) {
-            productName = faker.food().fruit();
-        } else if (categoryNameField.equals("Ingredients")) {
-            productName = faker.food().ingredient();
-        } else if (categoryNameField.equals("Spices")) {
-            productName = faker.food().spice();
-        } else if (categoryNameField.equals("Vegetables")) {
-            productName = faker.food().vegetable();
+        switch (categoryNameField) {
+            case ("Fruits"):
+                productName = faker.food().fruit();
+                break;
+            case ("Ingredients"):
+                productName = faker.food().ingredient();
+                break;
+            case ("Spices"):
+                productName = faker.food().spice();
+                break;
+            case ("Vegetables"):
+                productName = faker.food().vegetable();
+                break;
         }
         return productName;
     }
@@ -34,12 +37,14 @@ public class RandomStorePopulator {
         for (int i = 0; i < 10; i++) {
             productList.add(new Product(getProductNameByCategoryName(categoryNameField),
                     faker.number().numberBetween(0, 11),
-                    Double.valueOf(faker.commerce().price())));
+                    Double.valueOf(faker.commerce().price()))
+            );
         }
         return productList;
     }
 
-    public List<Category> populateTheStore() {
+    @Override
+    public List<Category> getListOfCategories() {
         List<Category> categories = getNamesOfCategory();
         for (Category c : categories) {
             c.setProducts(populateCategories(c.getCategoryName()));
