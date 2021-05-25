@@ -65,6 +65,12 @@
         <artifactId>h2</artifactId>
         <version>${h2.version}</version>
     </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>2.11.2</version>
+        </dependency>
     </dependencies>
 
     <modules>

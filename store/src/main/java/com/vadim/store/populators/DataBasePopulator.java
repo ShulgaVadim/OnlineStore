@@ -19,10 +19,10 @@ public class DataBasePopulator implements Populator {
     public List<Category> getListOfCategories() {
         List<Category> categoryList = categoryDao.getAll();
         List<Category> categories = new ArrayList<>();
-        for (Category c : categoryList) {
-            c.setProducts(getProductListFromCategory(c));
-            categories.add(c);
-        }
+            for (Category c : categoryList) {
+                c.setProducts(getProductListFromCategory(c));
+                categories.add(c);
+            }
         try {
             categoryDao.getConnection().close();
         } catch (SQLException e) {
